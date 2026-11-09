@@ -1,6 +1,6 @@
 export const site = {
   origin: 'https://ab3c.org',
-  eventPath: '/xmeeting27/',
+  eventPath: 'https://xmeeting27.ab3c.org/',
   logo: '/ab3c/logo.jpeg',
   media: {
     manifest: 'ab3c/hero-sequence/manifest.json',

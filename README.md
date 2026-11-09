@@ -1,3 +1,7 @@
+## Endereço atual do X-Meeting
+
+O X-Meeting 2027 é publicado separadamente em https://xmeeting27.ab3c.org/ pelo repositório `hylixinsights/xmeeting2027`. Os links institucionais usam esse subdomínio. O snapshot em `public/xmeeting27/` permanece como compatibilidade do endereço anterior.
+
 # AB3C — landing page institucional
 
 Página estática em português e inglês, criada em projeto independente do X-Meeting. Usa Astro, TypeScript e D3 (`d3-selection`), sem cadastro, pagamentos ou backend. Publicação pelo GitHub Pages no domínio `https://ab3c.org/`, com o evento em `https://ab3c.org/xmeeting27/`.
