@@ -1,0 +1,11 @@
+---
+import { translations, type Language } from '../data/translations';
+interface Props { language: Language; }
+const { language } = Astro.props;
+const t = translations[language];
+---
+<nav class="language-switch" aria-label={t.languageNav} data-i18n-aria-label="languageNav">
+  <a href="/" lang="pt-BR" hreflang="pt-BR" aria-label="Português" data-language="pt" aria-current={language === 'pt' ? 'true' : undefined}>PT</a>
+  <span aria-hidden="true">/</span>
+  <a href="/en/" lang="en" hreflang="en" aria-label="English" data-language="en" aria-current={language === 'en' ? 'true' : undefined}>EN</a>
+</nav>

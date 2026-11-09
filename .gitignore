@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.astro/
+.DS_Store
+.preview/
+.taste-skill/
+src/taste/
+public/taste/
+.env
+.env.*
+!.env.example
+/*.pdf
+*.log

@@ -1,0 +1,62 @@
+name: Publish AB3C and X-Meeting
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Check components
+        run: npm run check
+      - name: Test the opening sequence
+        run: npm run test:hero
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Build both published routes
+        run: npm run build
+      - name: Verify published routes
+        run: |
+          test -f dist/index.html
+          test -f dist/en/index.html
+          test -f dist/xmeeting27/index.html
+          test -f dist/ab3c/hero-sequence/manifest.json
+      - name: Upload the website
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,135 @@
+---
+import '@fontsource-variable/libre-franklin';
+import '../styles/global.css';
+import '../styles/sequence-theme.css';
+import { translations, type Language } from '../data/translations';
+import { site } from '../data/site';
+import { assetPath } from '../lib/assets';
+import network from '../data/network.json';
+import LanguageSwitch from './LanguageSwitch.astro';
+import HeroMedia from './HeroMedia.astro';
+import Icon from './Icon.astro';
+interface Props { language: Language; }
+const { language } = Astro.props;
+const t = translations[language];
+const path = language === 'pt' ? '/' : '/en/';
+const pillars = [
+  { number: '01', icon: 'people', title: 'row1Title', text: 'row1Text' },
+  { number: '02', icon: 'science', title: 'row2Title', text: 'row2Text' },
+  { number: '03', icon: 'learning', title: 'row3Title', text: 'row3Text' },
+] as const;
+const positioned = new Map(network.nodes.map(node => [node.id, node]));
+const edges = network.links.filter(link => positioned.has(link.source) && positioned.has(link.target))
+  .map(link => ({ a: positioned.get(link.source)!, b: positioned.get(link.target)! }));
+---
+<!doctype html>
+<html lang={language === 'pt' ? 'pt-BR' : 'en'}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#052b20" />
+    <script is:inline>
+      // Hide animated copy before the deferred module starts; retain a readable fallback if it fails.
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
+          new URLSearchParams(window.location.search).get('motion') !== 'static') {
+        document.documentElement.setAttribute('data-sequence-pending', '');
+      }
+      window.setTimeout(() => document.documentElement.removeAttribute('data-sequence-pending'), 12000);
+    </script>
+    <title>{t.pageTitle}</title>
+    <meta name="description" content={t.description} />
+    <link rel="canonical" href={`${site.origin}${path}`} />
+    <link rel="alternate" hreflang="pt-BR" href={`${site.origin}/`} />
+    <link rel="alternate" hreflang="en" href={`${site.origin}/en/`} />
+    <link rel="alternate" hreflang="x-default" href={`${site.origin}/`} />
+    <link rel="icon" type="image/jpeg" href={site.logo} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="AB3C" />
+    <meta property="og:title" content={t.pageTitle} />
+    <meta property="og:description" content={t.description} />
+    <meta property="og:url" content={`${site.origin}${path}`} />
+    <meta property="og:image" content={`${site.origin}${site.logo}`} />
+    <meta property="og:image:alt" content="AB3C" />
+    <meta property="og:locale" content={language === 'pt' ? 'pt_BR' : 'en_US'} />
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main" data-i18n="skip">{t.skip}</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="#top" aria-label={t.home} data-i18n-aria-label="home">
+          <img src={site.logo} alt="AB3C" width="96" height="39" fetchpriority="high" />
+          <span data-i18n="institution">{t.institution}</span>
+        </a>
+        <div class="header-right">
+          <nav class="main-nav" aria-label={t.mainNav} data-i18n-aria-label="mainNav">
+            <a href="#associacao" data-i18n="navAssociation">{t.navAssociation}</a>
+            <a href="#comunidade" data-i18n="navCommunity">{t.navCommunity}</a>
+            <a class="event-nav" href={site.eventPath}>X-Meeting 2027 <Icon name="diagonal" /></a>
+          </nav>
+          <LanguageSwitch language={language} />
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero-shell" aria-labelledby="hero-h" data-sequence data-sequence-manifest={assetPath(site.media.manifest)} data-sequence-base={import.meta.env.BASE_URL}>
+        <div class="hero">
+          <HeroMedia />
+          <div class="hero-content">
+            <p class="eyebrow hero-eyebrow" data-i18n="heroEyebrow">{t.heroEyebrow}</p>
+            <div class="hero-message">
+              <h1 id="hero-h" data-i18n="heroHeading">{t.heroHeading}</h1>
+              <p class="hero-description" data-i18n="heroDescription">{t.heroDescription}</p>
+            </div>
+          </div>
+          <div class="hero-bottom">
+            <p class="sequence-cue" aria-hidden="true" hidden><Icon name="down" /></p>
+          </div>
+          <div class="sequence-track" aria-hidden="true" hidden><span data-sequence-progress></span></div>
+        </div>
+      </section>
+
+      <section class="about-section container section" id="associacao" aria-labelledby="about-h">
+        <div class="about-heading">
+          <div><p class="eyebrow section-label"><span class="section-marker" aria-hidden="true"></span><span data-i18n="aboutEyebrow">{t.aboutEyebrow}</span></p><h2 id="about-h" data-i18n="aboutHeading">{t.aboutHeading}</h2></div>
+          <p class="section-description" data-i18n="aboutDescription">{t.aboutDescription}</p>
+        </div>
+        <div class="pillars">
+          {pillars.map(pillar => <article class="pillar"><div class="pillar-top"><Icon name={pillar.icon} /><span>{pillar.number}</span></div><h3 data-i18n={pillar.title}>{t[pillar.title]}</h3><p data-i18n={pillar.text}>{t[pillar.text]}</p></article>)}
+        </div>
+      </section>
+
+      <section class="community-section section" id="comunidade" aria-labelledby="community-h">
+        <div class="container">
+          <p class="eyebrow section-label"><span class="section-marker" aria-hidden="true"></span><span data-i18n="communityEyebrow">{t.communityEyebrow}</span></p>
+          <div class="community-heading"><h2 id="community-h" data-i18n="communityHeading">{t.communityHeading}</h2><p class="section-description" data-i18n="communityDescription">{t.communityDescription}</p></div>
+          <div class="network-panel">
+            <aside class="network-intro"><span class="network-symbol" aria-hidden="true"><svg width="54" height="54" viewBox="0 0 54 54" fill="none"><path d="m10 16 27-7-10 32L10 16l17 25 20-15-10-17" stroke="currentColor" stroke-width="1.2"/><circle cx="10" cy="16" r="5" fill="#9ad9ba"/><circle cx="27" cy="41" r="5" fill="#9ad9ba"/><circle cx="47" cy="26" r="3" fill="#9ad9ba"/><path d="m37 2 7 7-7 7-7-7Z" fill="#d5bc71"/></svg></span><h3 data-i18n="networkExplore">{t.networkExplore}</h3><p data-i18n="networkInstruction">{t.networkInstruction}</p><div class="network-legend"><span><i class="person-key" aria-hidden="true"></i><span data-i18n="people">{t.people}</span></span><span><i class="topic-key" aria-hidden="true"></i><span data-i18n="topics">{t.topics}</span></span></div><span class="conceptual-note"><span aria-hidden="true">◌</span><span data-i18n="conceptual">{t.conceptual}</span></span></aside>
+            <div class="network-frame">
+              <div id="community-network" aria-label={t.networkLabel} data-i18n-aria-label="networkLabel"></div>
+              <div class="network-fallback" id="network-fallback">
+                <svg viewBox="0 0 860 540" role="img" aria-label={t.networkLabel} data-i18n-aria-label="networkLabel"><g class="network-edges">{edges.map(({ a, b }) => <line x1={a.x} y1={a.y} x2={b.x} y2={b.y} />)}</g>{network.nodes.map(node => node.type === 'person' ? <circle class="network-shape network-shape--person" cx={node.x} cy={node.y} r="7.5" /> : <g class="network-node--topic" transform={`translate(${node.x},${node.y})`}><path class="network-shape" d="M 0,-12 L 12,0 L 0,12 L -12,0 Z" /><text class="network-topic-label" y="39" text-anchor="middle">{node.label[language]}</text></g>)}</svg>
+                <p data-i18n="networkFallback">{t.networkFallback}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="event-section container section" id="xmeeting" aria-labelledby="event-h">
+        <div class="event-card">
+          <div class="event-art"><div class="event-art-lines" aria-hidden="true"></div><picture><source srcset={site.eventLogo} type="image/webp" /><img src={site.eventLogoFallback} alt={t.eventLogoAlt} data-i18n-alt="eventLogoAlt" width="880" height="300" loading="lazy" decoding="async" /></picture><span class="event-art-caption" data-i18n="eventArtCaption">{t.eventArtCaption}</span></div>
+          <div class="event-content"><p class="eyebrow" data-i18n="eventEyebrow">{t.eventEyebrow}</p><h2 id="event-h">X-Meeting <span>2027</span></h2><p class="event-description" data-i18n="eventDescription">{t.eventDescription}</p><div class="event-details"><div><span data-i18n="ev1Label">{t.ev1Label}</span><p data-i18n="ev1Value">{t.ev1Value}</p></div><div><span data-i18n="ev2Label">{t.ev2Label}</span><p data-i18n="ev2Value">{t.ev2Value}</p></div></div><a class="button button-dark" href={site.eventPath}><span data-i18n="eventButton">{t.eventButton}</span><Icon name="diagonal" /></a></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer closing">
+      <div class="container">
+        <div class="footer-main"><div class="footer-identity"><a class="brand" href="#top" aria-label={t.home} data-i18n-aria-label="home"><img src={site.logo} alt="AB3C" width="96" height="39" loading="lazy" /></a><p data-i18n="institution">{t.institution}</p></div><div class="footer-signature"><p data-i18n="footerTagline">{t.footerTagline}</p><nav aria-label={t.mainNav} data-i18n-aria-label="mainNav"><a href="#associacao" data-i18n="navAssociation">{t.navAssociation}</a><a href="#comunidade" data-i18n="navCommunity">{t.navCommunity}</a><a href={site.eventPath}>X-Meeting 2027 <Icon name="diagonal" /></a></nav></div></div>
+        <div class="footer-bottom"><p><span aria-hidden="true"></span><span data-i18n="footerMessage">{t.footerMessage}</span></p><LanguageSwitch language={language} /><a class="back-top" href="#top" aria-label={t.backTop} data-i18n-aria-label="backTop"><Icon name="down" /></a></div>
+      </div>
+    </footer>
+    <script>import '../scripts/main';</script>
+  </body>
+</html>

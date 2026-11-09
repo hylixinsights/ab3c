@@ -1,0 +1,12 @@
+---
+import manifest from '../../public/ab3c/hero-sequence/manifest.json';
+import { assetPath } from '../lib/assets';
+const { desktop, mobile } = manifest.variants;
+---
+<div class="hero-media" data-sequence-stage aria-hidden="true">
+  <picture>
+    <source media="(max-width: 899px)" srcset={assetPath(mobile.poster)} width={mobile.width} height={mobile.height} />
+    <img data-sequence-poster src={assetPath(desktop.poster)} alt="" width={desktop.width} height={desktop.height} fetchpriority="high" decoding="async" />
+  </picture>
+  <canvas class="sequence-canvas" data-sequence-canvas width={desktop.width} height={desktop.height} aria-hidden="true"></canvas>
+</div>

@@ -1,0 +1,113 @@
+{
+  "version": 1,
+  "generatedBy": "scripts/prepare-media.mjs",
+  "generatedAt": "2026-11-06T20:51:39.057Z",
+  "source": {
+    "file": "video_landing_page.mp4",
+    "codec": "h264",
+    "width": 1280,
+    "height": 720,
+    "fps": 24,
+    "frames": 240,
+    "duration": 10,
+    "bytes": 2913581,
+    "color": {
+      "pixFmt": "yuv420p",
+      "space": "smpte170m",
+      "range": "tv",
+      "transfer": "iec61966-2-1",
+      "primaries": "bt709"
+    },
+    "audio": "ignored"
+  },
+  "variants": {
+    "desktop": {
+      "id": "desktop",
+      "frameCount": 120,
+      "indexBase": 0,
+      "pattern": "desktop/frame_{index}.webp",
+      "indexPad": 3,
+      "width": 1280,
+      "height": 720,
+      "fps": 12,
+      "quality": 78,
+      "format": "image/webp",
+      "crop": null,
+      "bytes": 3961888,
+      "largestFrameBytes": 35246,
+      "averageFrameBytes": 33016
+    },
+    "mobile": {
+      "id": "mobile",
+      "frameCount": 100,
+      "indexBase": 0,
+      "pattern": "mobile/frame_{index}.webp",
+      "indexPad": 3,
+      "width": 768,
+      "height": 476,
+      "fps": 10,
+      "quality": 74,
+      "format": "image/webp",
+      "crop": {
+        "x": 352,
+        "y": 144,
+        "w": 928,
+        "h": 576
+      },
+      "bytes": 2142476,
+      "largestFrameBytes": 23448,
+      "averageFrameBytes": 21425
+    }
+  },
+  "posters": {
+    "desktop": {
+      "id": "desktop",
+      "file": "poster-desktop.webp",
+      "width": 1280,
+      "height": 720,
+      "crop": null,
+      "bytes": 38722
+    },
+    "stacked": {
+      "id": "stacked",
+      "file": "poster-stacked.webp",
+      "width": 928,
+      "height": 576,
+      "crop": {
+        "x": 352,
+        "y": 144,
+        "w": 928,
+        "h": 576
+      },
+      "bytes": 34506
+    }
+  },
+  "composition": {
+    "desktop": {
+      "variant": "desktop",
+      "poster": "desktop",
+      "anchor": "bottom-right",
+      "maxWidthRatio": 0.88,
+      "sourceRect": null
+    },
+    "stacked": {
+      "variant": "mobile",
+      "variantWide": "desktop",
+      "poster": "stacked",
+      "sourceRect": {
+        "x": 352,
+        "y": 144,
+        "w": 928,
+        "h": 576
+      },
+      "aspect": 1.6111
+    }
+  },
+  "background": {
+    "leftEdge": "#002f41",
+    "topEdge": "#013043",
+    "topLeft": "#002e41",
+    "bottomLeft": "#002f41",
+    "textColumn": "#013042"
+  }
+}

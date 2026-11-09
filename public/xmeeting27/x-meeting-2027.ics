@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//X-Meeting//X-Meeting 2027//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:x-meeting-2027-conference@x-meeting.com
+DTSTAMP:20261109T081605Z
+DTSTART;VALUE=DATE:20270608
+DTEND;VALUE=DATE:20270612
+SUMMARY:X-Meeting 2027: The Brazilian Conference on Bioinformatics
+LOCATION:Distrito de Inovação da Cantareira\, Niterói\, Rio de Janeiro\,
+  Brazil
+DESCRIPTION:The Brazilian Conference on Bioinformatics. June 8–11\, 2027.
+  Program and registration details: https://ab3c.org/xmeeting27/
+URL:https://ab3c.org/xmeeting27/
+TRANSP:TRANSPARENT
+END:VEVENT
+END:VCALENDAR
